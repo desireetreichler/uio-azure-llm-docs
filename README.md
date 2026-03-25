@@ -127,7 +127,7 @@ Roo is an extension that can be installed for VS Code. It can run locally or in 
 - API key: your Azure API key
 - model: your Azure deployment name
 
-Experience shows that Roo and the UiO Azure setup changed since the [LLM workshop tutorial from January 2026] (https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html)
+Experience shows that Roo and the UiO Azure setup changed since the [LLM workshop tutorial from January 2026](https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html)
 - older Roo versions used a `3rd party provider` path
 - in newer versions you may need to use `OpenAI Compatible` or `OpenAI`
 - different people got different models to work at different times
@@ -165,6 +165,12 @@ base_url = "your URL, again only keep the first part up to (not including) /resp
 env_key = "AZURE_OPENAI_API_KEY"
 wire_api = "responses"
 ```
+
+## Resources
+- [LLM workshop tutorial from January 2026](https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html)
+- [Information about UiO's GPT access, Link to the Azure ordering process](https://www.uio.no/tjenester/it/ki/gpt-uio/)
+- [UiO Foundry/Azure Model Deployment](https://ai.azure.com/)
+- [UiO Azure Portal (monitor your usage/costs)](https://portal.azure.com)
 
 
 ## Troubleshooting
