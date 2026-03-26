@@ -203,6 +203,7 @@ Try the Azure deployment name exactly as it appears in Azure AI Foundry. Try a d
 
 If you want to expand this guide later, useful next additions would be:
 
+- add a guide for Matlab and R users/tools
 - a `python_quickstart.py` example file in the repository
 - a short `curl` example
 - screenshots from Azure AI Foundry and Roo
