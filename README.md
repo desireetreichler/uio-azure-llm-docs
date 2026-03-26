@@ -41,6 +41,7 @@ Important:
 
 - do never paste API keys into documentation, they are secret
 - keep deployment names exactly as defined in Azure
+- the Target URI you see when you deploy a model (and click on it) is different from the URL you see in your overview on Azure. It seems the one from the model view is needed (and possibly truncated, see below)
 
 ## Option 1: Direct API Access From Code
 
