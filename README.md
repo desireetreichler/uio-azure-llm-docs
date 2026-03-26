@@ -141,7 +141,7 @@ Setup that worked in March 2026:
 - OpenAPI key -> paste from Azure
 - service tier: standard
 - model: gpt-5.4 (Note: this has to be deployed in Azure first. I tried other models, but they didn't work)
-- reasoning effort: none
+- reasoning effort: kept empty (none selected)
 - verbosity: medium 
 
 Treat this as a tested guidance rather than a guarantee that every menu label will look the same in your version/at the time you try this.
