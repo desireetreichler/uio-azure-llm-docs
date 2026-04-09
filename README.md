@@ -169,7 +169,7 @@ env_key = "AZURE_OPENAI_API_KEY"
 wire_api = "responses"
 ```
 
-This information is stored in the file `~/.codex/config.toml` on Mac OS or Linux.
+This information is stored in the file `~/.codex/config.toml` on Mac OS or Linux. On Windows, the standard file path is `C:\Users\"USERNAME"\.codex\config.toml`. 
 
 The setup for the **Codex CLI ** can be done by providing it with the same information in the `config.toml` file,
 stored in the same location. 
