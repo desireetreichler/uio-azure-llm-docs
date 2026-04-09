@@ -146,11 +146,13 @@ Setup that worked in March 2026:
 
 Treat this as a tested guidance rather than a guarantee that every menu label will look the same in your version/at the time you try this.
 
-## Option 3: Codex App
+## Option 3: Codex App or Codex CLI
 
 The Codex app is a good fit for users who want a standalone coding agent rather than editor-only integration. This is fairly hands-off any code, and possibly more suitable for (small) stand-alone tasks rather than explorative coding in big projects. 
 
-In March, the workflow to configure Codex looked like this:
+The [Codex CLI](https://developers.openai.com/codex/cli) is a terminal-based program with the same functionality. It is similar to Claude Code.
+
+In March, the workflow to configure the Codex App looked like this:
 - Install the Codex app from Open AI (root access required for this to work properly. Note it will ask for root authorisation only when trying it out first time)
 - In a terminal, set the environment variable AZURE_OPENAI_API_KEY as described above 
 - In Codex, open Settings, choose Configuration -> set config file
@@ -166,6 +168,12 @@ base_url = "your URL, again only keep the first part up to (not including) /resp
 env_key = "AZURE_OPENAI_API_KEY"
 wire_api = "responses"
 ```
+
+This information is stored in the file `~/.codex/config.toml` on Mac OS or Linux. On Windows, the standard file path is `C:\Users\"USERNAME"\.codex\config.toml`. 
+
+The setup for the **Codex CLI ** can be done by providing it with the same information in the `config.toml` file,
+stored in the same location. 
+When you use both, they share configuration and sessions.
 
 ## Resources
 - [LLM workshop tutorial from January 2026](https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html)
