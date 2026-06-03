@@ -29,7 +29,7 @@ In Azure AI Foundry:
 3. Go to the models and endpoints area (scroll down left to My assets -> models + endpoints -> new model)
 4. Deploy the model you want to use. At the time of writing, gpt-5.4 was the one we got to work. 
 5. Note: If the model shows a lock, you have to request access by filling in the provided form. It took ca. one hour to be granted access (and access was granted to a series of gpt 5 models)
-6. You will need the deployment name (the model name), endpoint information (Target URI), and API key. Endpoint information is shared for all models. (Note: I had to delete everything starting from /responses... in the URL, thus only keeping the first half of the URL.)
+6. You will need the deployment name (the model name), endpoint information (Target URI), and API key. Endpoint information is shared for all models. Note: delete everything starting from /responses... and replace with /v1, so that the URL looks like this: "https://<your_project>.openai.azure.com/openai/v1"
 
 This information is referred to as the following later in the guide: 
 
@@ -41,7 +41,7 @@ Important:
 
 - do never paste API keys into documentation, they are secret
 - keep deployment names exactly as defined in Azure
-- the Target URI you see when you deploy a model (and click on it) is different from the URL you see in your overview on Azure. It seems the one from the model view is needed (and possibly truncated, see below)
+- the Target URI you see when you deploy a model (and click on it) is different from the URL you see in your overview on Azure. It seems the one from the model view is needed (in a truncated form)
 
 ## Option 1: Direct API Access From Code
 
@@ -49,7 +49,7 @@ This is the suggested way if you want to build your own scripts, notebooks, or a
 
 ### Optional: store credentials as environment variables
 
-This step is mainly for direct code usage. Roo Code and the Codex app may instead let you enter the same values in their own settings.
+This step is mainly for direct code usage. VSCode extensions and the Codex app may instead let you enter the same values in their own settings. 
 
 #### PowerShell
 
@@ -76,6 +76,7 @@ export AZURE_OPENAI_MODEL="YOUR_DEPLOYMENT_NAME"
 ```
 
 To persist them, add the `export` lines to your shell startup file such as `~/.bashrc` or `~/.zshrc`.
+Source your .bashrc file or restart your terminal/re-connect to the server to make the changes persistent.
 
 ### Python example
 
@@ -116,19 +117,23 @@ Notes:
 - if commands run in the wrong Python environment, call them explicitly, for example `mamba run -n YOUR_ENV python script.py`
 - many clients expect the deployment name, not just the model family name
 
+
 ## Option 2: Extension in VS Code
 
-There are extension that can be installed for VS Code that can run locally or in a SSH server session. This is probably the most convenient route for people who want LLM support directly inside VS Code. 
+There are extension that can be installed for VS Code that can run locally or in an SSH server session. This is probably the most convenient route for people who want LLM support directly inside VS Code. 
 We have tested Zoo (previously Roo) Code and the Codex extension.
 
 ### Codex extension
-Codex is OpenAI's agent solution and designed to work with OpenAI's models. 
+Codex is OpenAI's agent solution and designed to work with OpenAI's models provided through Azure (as described above) or [through gpt.uio.no](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html#models-made-available-through-gpt.uio.no) (by invitation only at the time of writing). 
 
 Setup:
-- in a terminal, set the environment variable AZURE_OPENAI_API_KEY as described above (can be done on server side for Remote-SSH coding)
-- install the Codex extension and open it (the icon may be on the top/right, not in the left sidebar)
-- **do not sign in**, but choose "Use API Key". Put in anything and click continue until you seem to be logged in.
-- Go to settings and open the config.toml. Paste the information as shown below for option 3. **Important:** do not paste your key but keep the reference to the environment variable "AZURE_OPENAI_API_KEY"
+- Rather than setting environment variables as described above it seems necessary (possibly on Linux only?) to create a .env file and set the API key there in your HOME/.codex folder (on Linux/Mac OS: ~/.codex/.env):
+```bash
+AZURE_OPENAI_API_KEY="REPLACE_WITH_REAL_KEY"
+```
+- Install the Codex extension iin VSCode and open it (the icon is on the top/right, not in the left sidebar)
+- **do not sign in**, but choose "Use API Key". Put in a dummy string and click continue until you seem to be logged in.
+- Go to settings and open the config.toml. Paste the information as shown below for option 3. **Important:** do not paste your key but keep the reference to the environment variable "AZURE_OPENAI_API_KEY" as set above
 - close and re-open the extension
 
 The extension shares its settings with the app/client versions described in option 3, and sessions will be shared between them on the same machine. Detailed setup instructions for Codex are available [here](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html) (access requires UiO account login).
@@ -183,7 +188,7 @@ model_reasoning_effort = "medium"
 
 [model_providers.azure]
 name = "Azure OpenAI"
-base_url = "your URL, again only keep the first part up to (not including) /responses..."
+base_url = "YOUR CUSTOM URL"     # in the form: "https://YOUR-RESOURCE.openai.azure.com/openai/v1/"
 env_key = "AZURE_OPENAI_API_KEY"
 wire_api = "responses"
 ```
