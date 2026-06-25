@@ -156,7 +156,7 @@ OpenAI setup that worked in June 2026 for Zoo (and March 2026 for Roo):
 - model: gpt-5.4 (Note: this has to be deployed in Azure first. Use your Azure deployment name here.)
 - reasoning effort: kept empty (none selected)
 - verbosity: medium
-- 
+
 Anthropic setup that worked in June 2026 for Zoo:
 - When using Anthropic as provider, note that the URL/endpoint should be without /v1 : "https:/YOUR-RESOURCE.ai.azure.com/anthropic/". 
 
