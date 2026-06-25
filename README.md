@@ -147,15 +147,17 @@ Setup:
 - You can store several model setups here by creating a new Configuration Profile for each. 
 
 **What to enter in Zoo**
-Setup that worked in June 2026 for Zoo (and March 2026 for Roo):
+OpenAI setup that worked in June 2026 for Zoo (and March 2026 for Roo):
 - config profile: a custom name, call it the same as your deployed model on Azure to avoid confusion.
 - Provider: `OpenAI`
-- check `use custom base URL`, and paste the URL/endpoint from Azure. Note: truncate starting from /responses and replace this with /v1, so that it takes the form "https://YOUR-RESOURCE.openai.azure.com/openai/v1/"
+- check `use custom base URL`, and paste the URL/endpoint from Azure. Note: truncate starting from /responses and replace this with /v1, so that it takes the form "https://YOUR-RESOURCE.openai.azure.com/openai/v1/"    
 - OpenAPI key -> paste your Azure API key from Azure
 - service tier: standard
 - model: gpt-5.4 (Note: this has to be deployed in Azure first. Use your Azure deployment name here.)
 - reasoning effort: kept empty (none selected)
 - verbosity: medium
+Anthropic setup that worked in June 2026 for Zoo:
+- When using Anthropic as provider, note that the URL/endpoint should be without /v1 : "https:/YOUR-RESOURCE.ai.azure.com/anthropic/". 
 
 
 Treat this as a tested guidance rather than a guarantee that every menu label will look the same in your version/at the time you try this.
