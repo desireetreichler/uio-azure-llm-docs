@@ -147,6 +147,7 @@ Setup:
 - You can store several model setups here by creating a new Configuration Profile for each. 
 
 **What to enter in Zoo**
+
 OpenAI setup that worked in June 2026 for Zoo (and March 2026 for Roo):
 - config profile: a custom name, call it the same as your deployed model on Azure to avoid confusion.
 - Provider: `OpenAI`
