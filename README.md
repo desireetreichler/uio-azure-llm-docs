@@ -12,13 +12,20 @@ The guide is based on workshop notes, personal try and error, and tested setups 
 
 ## Requirements
 
-For this to work, you will need:
+For this to work, you will need an API key pointing to your model of choice. UiO offers two solutions:
 
-- access to Azure AI Foundry, for this you need to go through [UiO's GPT/Azure ordering process](https://www.uio.no/tjenester/it/ki/gpt-uio/) ("bestill API-tilgang", requires a project that can be billed, the project PI can request access for several users in the project. Experience shows that this can take days to months to approve.)
-- a deployed model in your Azure project (see guide below)
+A) access to **Azure AI Foundry**, for this you need to go through [UiO's Foundry ordering process](https://www-int.uio.no/tjenester/it/ki/foundry/hjelp/bestill-api/api.html) (requires a project that can be billed. The project PI can request access for several users in the project. Previously this could take days to months to approve.)
+
+B) **personal API keys for GPT-UiO***, this you have to ask for by explaining your needs in an [email to gpt-drift@usit.no](https://www.uio.no/tjenester/it/ki/gpt-uio/hjelp/api-nokler.html) (gives you API access to various models, including several ones running locally that are OK to use with red data, but also GPT-5.4)
+
+For any model (also personal subscriptions), you need:
+- the model to be deployed (for Azure/Foundry projects, see guide below)
 - the deployment name
 - the endpoint or base URL
 - your API key
+
+## GPT UiO personal API keys Setup
+Once your API key access has been granted, log on to gpt.uio.no, then click on your profile name and select My API keys. Generate a key, then retrieve API key, Base URL etc. by clicking on your model of choice. 
 
 ## Azure Setup
 
@@ -77,6 +84,7 @@ export AZURE_OPENAI_MODEL="YOUR_DEPLOYMENT_NAME"
 
 To persist them, add the `export` lines to your shell startup file such as `~/.bashrc` or `~/.zshrc`.
 Source your .bashrc file or restart your terminal/re-connect to the server to make the changes persistent.
+If you want to be able to switch between several models/API keys/endpoints, you can set up individual environments for these and store the keys in each their environment file instead. 
 
 ### Python example
 
@@ -201,11 +209,14 @@ This information is stored in the file `~/.codex/config.toml` on Mac OS or Linux
 The setup for the **Codex CLI ** can be done by providing it with the same information in the `config.toml` file,
 stored in the same location. Same applies to the VSCode extension.
 When you use either of them on the same machine, they share configuration and sessions.
+If you want to be able to switch between several models/API keys/endpoints, you can set up individual environments for these and store the keys in each their environment file instead. 
+
 
 ## Resources
 - [LLM workshop tutorial from January 2026](https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html)
 - [Codex setup (agent-skolen for UiO)](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html) (access requires UiO account login).
-- [Information about UiO's GPT access, Link to the Azure ordering process](https://www.uio.no/tjenester/it/ki/gpt-uio/)
+- [Information about UiO's GPT access / personal API access](https://www.uio.no/tjenester/it/ki/gpt-uio/)
+- [Link to the Azure ordering process](https://www-int.uio.no/tjenester/it/ki/foundry/hjelp/bestill-api/api.html)
 - [UiO Foundry/Azure Model Deployment](https://ai.azure.com/)
 - [UiO Azure Portal (monitor your usage/costs)](https://portal.azure.com)
 - [Codex](https://developers.openai.com/codex/)
