@@ -1,14 +1,14 @@
-﻿# Using LLMs for Coding via UiO's Azure Solution
+﻿# Using LLMs for Coding via UiO's own solutions
 
-This guide shows three practical ways to get started with LLMs for coding through UiO's Azure-based setup:
+This guide shows three practical ways to get started with LLMs for coding through UiO's GPT-UiO and Azure-based setups:
 
 1. Direct API access from your own code
 2. Extensions to VS Code (Zoo/Roo code, Codex)
 3. Agent use through the Codex app/client (Windows/Mac, no release for Linux at the time of writing)
 
-At UiO, the Azure route is useful when you want LLM access through an institutionally managed setup rather than a personal public API account. This allows you to use LLMs on green and yellow data, and to bill associated costs to a project rather than paying personally.
+At UiO, the Azure route is useful when you want LLM access through an institutionally managed setup rather than a personal public API account, and don't want limited tokens (your project pays per token). This allows you to use LLMs on green and yellow data, and to bill associated costs to a project rather than paying personally. The route through GPT UiO also works for red data and offers open access and somewhat less strong models and has token limits.
 
-The guide is based on workshop notes, personal try and error, and tested setups for Windows, Linux and Mac OS in spring 2026 (but not all setups were tested on all platforms). Rapid development in tools means that some approaches may soon/already be outdated.
+The guide is based on workshop notes, personal try and error, and tested setups for Windows, Linux and Mac OS in spring/summer 2026 (but not all setups were tested on all platforms). Rapid development in tools means that some approaches may soon/already be outdated.
 
 ## Requirements
 
@@ -34,7 +34,7 @@ In Azure AI Foundry:
 1. Sign in to [UiO azure](https://ai.azure.com/)
 2. Open your project.
 3. Go to the models and endpoints area (scroll down left to My assets -> models + endpoints -> new model)
-4. Deploy the model you want to use. At the time of writing, gpt-5.4 was the one we got to work smoothly. gpt-5.5 seems to work as well but costs considerably more.
+4. Deploy the model you want to use. At the time of writing, gpt-5.4 was the one we got to work smoothly. gpt-5.5 seems to work as well but costs considerably more. We also got Claude to work (that seemed considerably more expensive). 
 5. Note: If the model shows a lock, you have to request access by filling in the provided form. It took ca. one hour to be granted access (and access was granted to a series of gpt 5 models)
 6. You will need the deployment name (the model name), endpoint information (Target URI), and API key. Endpoint information is shared for all models. Note: delete everything starting from /responses... and replace with /v1, so that the URL looks like this: "https://<your_project>.openai.azure.com/openai/v1"
 
