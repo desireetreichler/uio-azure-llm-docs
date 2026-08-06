@@ -4,9 +4,9 @@ This guide shows three practical ways to get started with LLMs for coding throug
 
 1. Direct API access from your own code
 2. Extensions to VS Code (Zoo/Roo code, Codex)
-3. Agent use through the Codex app/client (Windows/Mac, no release for Linux at the time of writing)
+3. Agent use through the Codex CLI/app (the client is universal, the app only for Windows/Mac only at the time of writing)
 
-At UiO, the Azure route is useful when you want LLM access through an institutionally managed setup rather than a personal public API account, and don't want limited tokens (your project pays per token). This allows you to use LLMs on green and yellow data, and to bill associated costs to a project rather than paying personally. The route through GPT UiO also works for red data and offers open access and somewhat less strong models and has token limits.
+At UiO, the Azure route is useful when you want LLM access through an institutionally managed setup rather than a personal public API account, and don't want limited tokens (your project pays per token). This allows you to use LLMs on green and yellow data, and to bill associated costs to a project rather than paying personally. The route through GPT UiO also works for red data and offers open access models in addition to several GPT models (up to 5.4), and has token limits.
 
 The guide is based on workshop notes, personal try and error, and tested setups for Windows, Linux and Mac OS in spring/summer 2026 (but not all setups were tested on all platforms). Rapid development in tools means that some approaches may soon/already be outdated.
 
@@ -181,12 +181,13 @@ Experience shows that Zoo/Roo and the UiO Azure setup changed rapidly during spr
 
 ## Option 3: Codex App or Codex CLI
 
-The [Codex app ](https://developers.openai.com/codex/quickstart?setup=app) is a good fit for users who want a standalone coding agent rather than editor-only integration. This is fairly hands-off any code, and possibly more suitable for (small) stand-alone tasks rather than explorative coding in big projects. The app is only available for Windows/Mac OS at the time of writing. 
-
 The [Codex CLI](https://developers.openai.com/codex/cli) is a terminal-based program with the same functionality. It is similar to Claude Code and available for all platforms.
+
+The [Codex app ](https://developers.openai.com/codex/quickstart?setup=app) is a good fit for users who want a standalone coding agent rather than editor-only integration. This is fairly hands-off any code, and possibly more suitable for (small) stand-alone tasks rather than explorative coding in big projects. The app is only available for Windows/Mac OS at the time of writing. 
 
 UiO-targeted setup instructions for Codex are available [here](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html) (access requires UiO account login). This resource also provides a guide on how to make Codex connect to tools with API access such as Canvas or Nettskjema.
 
+### Codex app (one model/profile)
 In March, the workflow to configure the Codex App looked like this:
 - Install the Codex app from Open AI (root access required for this to work properly. Note it will ask for root authorisation only when trying it out first time)
 - In a terminal, set the environment variable AZURE_OPENAI_API_KEY as described above 
@@ -206,10 +207,126 @@ wire_api = "responses"
 
 This information is stored in the file `~/.codex/config.toml` on Mac OS or Linux. On Windows, the standard file path is `C:\Users\"USERNAME"\.codex\config.toml`. 
 
-The setup for the **Codex CLI ** can be done by providing it with the same information in the `config.toml` file,
+### Codex CLI 
+The setup for the **Codex CLI** can be done by providing it with the same information in the `config.toml` file,
 stored in the same location. Same applies to the VSCode extension.
 When you use either of them on the same machine, they share configuration and sessions.
+
 If you want to be able to switch between several models/API keys/endpoints, you can set up individual environments for these and store the keys in each their environment file instead. 
+It is possible to install Codex CLI on a server with multiple models/profiles (OpenAI family only) for different purposes, for this follow the setup below.
+
+## Codex CLI Profile Setup on UNIX with several profiles
+This setup uses one shared user-level Codex config plus one profile file per recurring model/provider combination.
+
+### Files
+User-level config:
+
+- `~/.codex/config.toml`
+
+One file per profile/model, for example:
+
+- `~/.codex/gpt54uio.config.toml`     # GPT-UiO model accessible through personal API key
+- `~/.codex/gpt5miniuio.config.toml`  # Another GPT-UiO model
+- `~/.codex/azure54.config.toml`      # A model deployed from UiO Azure/Foundry
+
+
+Environment files:
+
+- `~/.config/codex/env/gptuio.env`    # GPT-UiO models share the same environment (access point, API key)
+- `~/.config/codex/env/azure54.env`
+
+
+Shell helpers:
+
+- `~/.config/codex/codex-profiles.sh` # Helps loading the right model/key for the different profiles
+
+### Structure
+
+`~/.codex/config.toml` contains:
+
+- shared defaults such as `personality` and `model_reasoning_effort`
+- provider definitions under `[model_providers.<name>]` -- for this example, you need to define provider informations for the GPT UiO models (shared) and separate ones for models deployed on Azure.
+- project trust settings (added later when you choose to trust folders)
+
+Example shared config file:
+
+```toml
+# Optional: Define a default setup when no profile is chosen.
+model = "gpt-5.4"
+model_provider = "azure"
+model_reasoning_effort = "medium"
+
+[model_providers.gptuio]
+name = "GPT UiO"
+base_url = "https://gpt.uio.no/api/v1"
+env_key = "YELLOW_UIO_API_KEY"
+wire_api = "responses"
+
+[model_providers.azure]
+name = "Azure OpenAI"
+base_url = "https://fdry-uio-mn-geo-geohyd-snowdepth.cognitiveservices.azure.com/openai/v1"
+env_key = "AZURE_OPENAI_API_KEY"
+wire_api = "responses"
+```
+
+Each profile cofig file should only contain the settings that differ. For the GPT UiO models, this is only the model name. For example gpt54uio.config.toml:
+
+```toml
+model = "gpt-5.4"
+model_provider = "gptuio"
+```
+
+### Environment Variables
+Keep API keys out of `config.toml` and store them in environment variables instead. This example requires two environments, one for GPT UiO (shared for all models there) and one for the Azure model. Even if you have further profiles, no extra env file is needed when the provider endpoint and API key are shared.
+
+
+Example:
+
+```bash
+# ~/.config/codex/env/gptuio.env
+export YELLOW_UIO_API_KEY='...'
+```
+
+Restrict permissions:
+
+```bash
+chmod 700 ~/.config/codex ~/.config/codex/env
+chmod 600 ~/.config/codex/env/*.env
+```
+
+### Shell Wrappers
+Wrappers source the matching env file and then start Codex with the matching profile.
+
+Example:
+
+```bash
+codex-gpt54uio() {
+  set -a
+  . "$HOME/.config/codex/env/gptuio.env"
+  set +a
+  codex --profile gpt54uio "$@"
+}
+```
+
+Load the wrappers in each shell, or add that line to `~/.bashrc`:
+
+```bash
+source ~/.config/codex/codex-profiles.sh
+```
+
+
+### Usage
+Start Codex CLI with the profile name defined in the shell wrapper above. Examples:
+
+```bash
+codex-azure54
+codex-gpt5miniuio
+```
+
+If you define a default model in config.toml, this will be loaded when you start codex without specifying a profile.
+```bash
+codex     # loads default model (if defined)
+```
 
 
 ## Resources
